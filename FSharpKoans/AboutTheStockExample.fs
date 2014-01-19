@@ -57,6 +57,21 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
         
+        let parseRow (row:string) =
+            let parsed = row.Split ',' 
+            let p = System.Double.Parse
+            (parsed.[0], p parsed.[1], p parsed.[4]) 
+        
+        let variance r =
+            let d, o, c = r
+            (d, abs(o - c))
+
+        let result, _ =
+            stockData
+                |> List.tail
+                |> List.map parseRow
+                |> List.map variance
+                |> List.maxBy snd
+            
         AssertEquality "2012-03-13" result
